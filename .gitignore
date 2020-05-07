@@ -1,0 +1,8 @@
+*.retry
+
+*.bak
+*.gho
+*.ori
+*.orig
+*.tmp
+*.log

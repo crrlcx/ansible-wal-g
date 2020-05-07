@@ -1,0 +1,6 @@
+---
+# defaults file for ansible-wal-g
+
+walg_version: 0.2.15
+walg_url: "https://github.com/wal-g/wal-g/releases/download/v{{ walg_version }}/wal-g.linux-amd64.tar.gz"
+walg_binary_path: /usr/local/bin/wal-g
