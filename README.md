@@ -58,7 +58,7 @@ walg_cron_enabled: true
 
 ## Usage
 
-Create full or delta backups with: `/usr/local/scripts/walg-backup.sh`
+Create full or delta backups with: `/usr/local/scripts/walg-backup.sh`\
 Rotate WAL-archives and backups with: `/usr/local/scripts/walg-rotate.sh`
 
 ## License
