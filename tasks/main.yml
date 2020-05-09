@@ -72,11 +72,11 @@
       hour: '0'
       user: "{{ walg_user }}"
       job: "{{ walg_script_path }}/walg-rotate.sh"
+      state: "{{ wal_cron_enabled | ternary('present', 'absent', 'absent') }}"
     cron:
       name: 'Create wal-g backups'
       minute: '0'
       hour: '1'
       user: "{{ walg_user }}"
       job: "{{ walg_script_path }}/walg-backup.sh"
-  when:
-    - walg_cron_enabled | bool
+      state: "{{ wal_cron_enabled | ternary('present', 'absent', 'absent') }}"

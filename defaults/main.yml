@@ -19,4 +19,4 @@ walg_s3_secret_access_key: 'secret'
 
 walg_backups_retain:
 
-walg_cron_enabled: true
+walg_cron_enabled: false
