@@ -64,19 +64,20 @@
   with_fileglob:
     - ../templates/*.sh.j2
 
-- name: wal-g | create cron jobs for create and rotate backups
-  block:
-    cron:
-      name: 'Rotate wal-g backups'
-      minute: '0'
-      hour: '0'
-      user: "{{ walg_user }}"
-      job: "{{ walg_script_path }}/walg-rotate.sh"
-      state: "{{ wal_cron_enabled | ternary('present', 'absent', 'absent') }}"
-    cron:
-      name: 'Create wal-g backups'
-      minute: '0'
-      hour: '1'
-      user: "{{ walg_user }}"
-      job: "{{ walg_script_path }}/walg-backup.sh"
-      state: "{{ wal_cron_enabled | ternary('present', 'absent', 'absent') }}"
+- name: wal-g | create cron jobs for rotate backups
+  cron:
+    name: 'Rotate wal-g backups'
+    minute: '0'
+    hour: '0'
+    user: "{{ walg_user }}"
+    job: "{{ walg_script_path }}/walg-rotate.sh"
+    state: "{{ wal_cron_enabled | ternary('present', 'absent', 'absent') }}"
+
+- name: wal-g | create cron jobs for create backups
+  cron:
+    name: 'Create wal-g backups'
+    minute: '0'
+    hour: '1'
+    user: "{{ walg_user }}"
+    job: "{{ walg_script_path }}/walg-backup.sh"
+    state: "{{ wal_cron_enabled | ternary('present', 'absent', 'absent') }}"
