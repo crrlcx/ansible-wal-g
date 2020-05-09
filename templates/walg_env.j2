@@ -4,6 +4,8 @@
 AWS_ACCESS_KEY_ID={{ walg_s3_access_key }}
 AWS_REGION={{ walg_s3_region }}
 AWS_SECRET_ACCESS_KEY={{  walg_s3_secret_access_key }}
+WALG_S3_PREFIX=s3://{{ walg_s3_bucket }}/{{ walg_s3_prefix}}
+WALG_S3_STORAGE_CLASS={{ walg_s3_storage_class }}
 
 # PostgreSQL access
 PGHOST=/var/run/postgresql
@@ -12,9 +14,7 @@ PGHOST=/var/run/postgresql
 #PGPASSFILE=
 
 # Wal-G Setup
-WALG_DELTA_MAX_STEPS=5
-WALG_DOWNLOAD_CONCURRENCY=16
-WALG_S3_PREFIX=s3://{{ walg_s3_bucket }}/{{ walg_s3_prefix}}
-WALG_S3_STORAGE_CLASS=STANDARD_IA
-WALG_UPLOAD_CONCURRENCY=16
-WALG_UPLOAD_DISK_CONCURRENCY=6
+WALG_DELTA_MAX_STEPS={{ walg_backup_delta_steps }}
+WALG_DOWNLOAD_CONCURRENCY={{ walg_backup_download }}
+WALG_UPLOAD_CONCURRENCY={{ walg_backup_upload }}
+WALG_UPLOAD_DISK_CONCURRENCY={{ walg_backup_upload_disk }}

@@ -12,11 +12,18 @@ walg_env: /etc/default/wal-g
 walg_script_path: /usr/local/scripts
 
 walg_s3_access_key: 'access'
-walg_s3_bucket: 'wal-g'
-walg_s3_prefix: 'backup'
-walg_s3_region: us-west-1
 walg_s3_secret_access_key: 'secret'
 
-walg_backups_retain:
+walg_s3_bucket: wal-g
+walg_s3_prefix: backup
+walg_s3_region: us-west-1
+walg_s3_storage_class: STANDARD_IA
 
-walg_cron_enabled: false
+walg_backup_upload_disk: 6
+walg_backup_upload: 16
+walg_backup_download: 16
+
+walg_backup_delta_steps: 5
+walg_backup_retain: 3
+
+walg_cron_enabled: true

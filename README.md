@@ -26,13 +26,23 @@ walg_script_path: /usr/local/scripts
 
 # S3 bucket settings
 walg_s3_access_key: "access"
-walg_s3_bucket: "wal-g"
-walg_s3_prefix: "backup"
-walg_s3_region: us-west-1
 walg_s3_secret_access_key: "secret"
+walg_s3_bucket: wal-g
+walg_s3_prefix: backup
+walg_s3_region: us-west-1
+walg_s3_storage_class: STANDARD | STANDARD_IA | REDUCED_REDUNDANCY
 
+# Disk usage
+walg_backup_upload_disk: 6
+
+# Network usage
+walg_backup_upload: 16
+walg_backup_download: 16
+
+# How many delta backups should stay between full backups
+walg_backup_delta_steps: 5
 # How many full backups should stay after rotation
-walg_backups_retain: 7
+walg_backups_retain: 3
 
 # Create cron jobs
 walg_cron_enabled: true

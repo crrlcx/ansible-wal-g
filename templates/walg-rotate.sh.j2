@@ -12,4 +12,4 @@ set -o allexport
 source {{ walg_env }}
 set +o allexport
 
-{{ walg_binary }} delete retain FIND_FULL {{walg_backups_retain}} --confirm
+{{ walg_binary }} delete retain FIND_FULL {{walg_backup_retain}} --confirm
