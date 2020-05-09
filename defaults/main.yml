@@ -26,4 +26,4 @@ walg_backup_download: 16
 walg_backup_delta_steps: 5
 walg_backup_retain: 3
 
-walg_cron_enabled: true
+walg_cron_enabled: false
