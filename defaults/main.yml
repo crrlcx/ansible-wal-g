@@ -3,4 +3,20 @@
 
 walg_version: 0.2.15
 walg_url: "https://github.com/wal-g/wal-g/releases/download/v{{ walg_version }}/wal-g.linux-amd64.tar.gz"
-walg_binary_path: /usr/local/bin/wal-g
+walg_binary: /usr/local/bin/wal-g
+
+walg_user: postgres
+walg_group: postgres
+
+walg_env: /etc/default/wal-g
+walg_script_path: /usr/local/scripts
+
+walg_s3_access_key: 'access'
+walg_s3_bucket: 'wal-g'
+walg_s3_prefix: 'backup'
+walg_s3_region: us-west-1
+walg_s3_secret_access_key: 'secret'
+
+walg_backups_retain:
+
+walg_cron_enabled: true

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+{{ ansible_managed | comment }}
+
+# Created by carrol@protonmail.com
+
+set -o noclobber  # Avoid overlay files (echo "hi" > foo)
+set -o errexit    # Used to exit upon error, avoiding cascading errors
+set -o nounset    # Exposes unset variables
+set -o pipefail   # Unveils hidden failures
+
+set -o allexport
+source {{ walg_env }}
+set +o allexport
+
+{{ walg_binary }} backup-fetch {{ postgresql_data_dir | d('/var/lib/postgresql') }} LATEST

@@ -2,14 +2,14 @@
 # tasks file for ansible-wal-g
 - name: wal-g | check binary installed
   stat:
-    path: "{{ walg_binary_path }}"
+    path: "{{ walg_binary }}"
   register: walg_current_binary
   changed_when: false
 
 - name: wal-g | get current binary version
   shell: |
     set -o pipefail
-    sudo -Hu nobody timeout 2 {{ walg_binary_path }} --version 2>&1 | grep -Eoi '([0-9]{1,}\.){1,3}[0-9]{1,}(|-[a-z0-9\.]{1,})' | sort -uV | head -1
+    sudo -Hu nobody timeout 2 {{ walg_binary }} --version 2>&1 | grep -Eoi '([0-9]{1,}\.){1,3}[0-9]{1,}(|-[a-z0-9\.]{1,})' | sort -uV | head -1
   args:
     executable: /bin/bash
   register: walg_current_version
@@ -21,7 +21,7 @@
 - name: wal-g | download with unarchive when upgrade or downgrade
   unarchive:
     src: "{{ walg_url }}"
-    dest: "{{ walg_binary_path | dirname }}"
+    dest: "{{ walg_binary | dirname }}"
     exclude:
       - 'README.md'
       - 'LICENSE'
@@ -32,3 +32,51 @@
     mode: 0755
   when:
     - not walg_current_binary.stat.exists or walg_current_version.stdout is version(walg_version, '!=')
+
+- name: wal-g | check env directory
+  file:
+    path: "{{ walg_env | dirname }}"
+    state: directory
+    mode: 0755
+
+- name: wal-g | create env file
+  template:
+    src: 'walg_env.j2'
+    dest: "{{ walg_env }}"
+    owner: root
+    group: adm
+    mode: 0644
+
+- name: wal-g | check scripts directory
+  file:
+    path: "{{ walg_script_path }}"
+    state: directory
+    mode: 0755
+
+- name: wal-g | create scripts files
+  template:
+    src: "{{ item }}"
+    dest: "{{ walg_script_path }}/{{ item | basename | regex_replace('.j2','') }}"
+    backup: no
+    owner: root
+    group: adm
+    mode: 0755
+  with_fileglob:
+    - ../templates/*.sh.j2
+
+- name: wal-g | create cron jobs for create and rotate backups
+  block:
+    cron:
+      name: 'Rotate wal-g backups'
+      minute: '0'
+      hour: '0'
+      user: "{{ walg_user }}"
+      job: "{{ walg_script_path }}/walg-rotate.sh"
+    cron:
+      name: 'Create wal-g backups'
+      minute: '0'
+      hour: '1'
+      user: "{{ walg_user }}"
+      job: "{{ walg_script_path }}/walg-backup.sh"
+  when:
+    - walg_cron_enabled | bool

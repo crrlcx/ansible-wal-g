@@ -1,6 +1,6 @@
 galaxy_info:
   author: carrol@protonmail.com
-  description: Download, setup and run WAL-G as systemd unit for VM and BareMetal servers.
+  description: Download, setup and run WAL-G as cron task for VM and BareMetal servers.
   license: MIT License
   min_ansible_version: 2.4
 
