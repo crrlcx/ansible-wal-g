@@ -6,24 +6,44 @@ walg_url: "https://github.com/wal-g/wal-g/releases/download/v{{ walg_version }}/
 walg_binary: /usr/local/bin/wal-g
 
 walg_user: postgres
-walg_group: postgres
 
 walg_env: /etc/default/wal-g
 walg_script_path: /usr/local/scripts
+walg_data_path: /var/lib/postgresql/12/main
 
-walg_s3_access_key: 'access'
-walg_s3_secret_access_key: 'secret'
-
-walg_s3_bucket: wal-g
-walg_s3_prefix: backup
+walg_s3_id: 'id'
+walg_s3_secret: 'secret'
 walg_s3_region: us-west-1
+walg_s3_endpoint: "https://s3.dualstack.{{ walg_s3_region }}.amazonaws.com"
+
+walg_s3_bucket: backup
+walg_s3_prefix: ''
 walg_s3_storage_class: STANDARD_IA
+walg_s3_use_path_style: false
 
-walg_backup_upload_disk: 6
-walg_backup_upload: 16
-walg_backup_download: 16
+walg_pg_socket: /var/run/postgresql
 
-walg_backup_delta_steps: 5
-walg_backup_retain: 3
+walg_backup_upload_disk: 2
+walg_backup_upload: 10
+walg_backup_download: 10
+
+walg_backup_delta_steps: 7
+walg_backup_retain: 2
 
 walg_cron_enabled: false
+
+# Override WAL-G settings
+## Storages
+walg_aws_override: []
+walg_azure_override: []
+walg_gcs_override: []
+walg_swift_override: []
+walg_filesystem_override: []
+
+## Databases
+walg_mongodb_override: []
+walg_mysql_override: []
+walg_postgresql_override: []
+
+## Commons
+walg_common_override: []

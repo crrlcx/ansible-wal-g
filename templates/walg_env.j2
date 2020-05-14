@@ -1,20 +1,58 @@
 {{ ansible_managed | comment }}
 
-# AWS S3 access
-AWS_ACCESS_KEY_ID={{ walg_s3_access_key }}
-AWS_REGION={{ walg_s3_region }}
-AWS_SECRET_ACCESS_KEY={{  walg_s3_secret_access_key }}
-WALG_S3_PREFIX=s3://{{ walg_s3_bucket }}/{{ walg_s3_prefix}}
-WALG_S3_STORAGE_CLASS={{ walg_s3_storage_class }}
+{% if walg_aws_combine | length > 0 %}
+# AWS S3 setup
+{%   for var in walg_aws_combine %}
+{{ var.option | upper }}={{ var.value }}
+{% endfor %}
+{% endif %}
+{% if walg_azure_combine | length > 0 %}
+# Azure Storage setup
+{%   for var in walg_azure_combine %}
+{{ var.option | upper }}={{ var.value }}
+{% endfor %}
+{% endif %}
+{% if walg_gcs_combine | length > 0 %}
+# Google Cloud Storage setup
+{%   for var in walg_gcs_combine %}
+{{ var.option | upper }}={{ var.value }}
+{% endfor %}
+{% endif %}
+{% if walg_swift_combine | length > 0 %}
+# Swift object storage setup
+{%   for var in walg_swift_combine %}
+{{ var.option | upper }}={{ var.value }}
+{% endfor %}
+{% endif %}
+{% if walg_filesystem_combine | length > 0 %}
+# Backups on filesystem setup
+{%   for var in walg_filesystem_combine %}
+{{ var.option | upper }}={{ var.value }}
+{% endfor %}
+{% endif %}
 
-# PostgreSQL access
-PGHOST=/var/run/postgresql
-#PGUSER=
-#PGPASSWORD=
-#PGPASSFILE=
+{% if walg_mongodb_combine | length > 0 %}
+# MongoDB setup
+{%   for var in walg_mongodb_combine %}
+{{ var.option | upper }}={{ var.value }}
+{% endfor %}
+{% endif %}
+{% if walg_mysql_combine | length > 0 %}
+# MySQL setup
+{%   for var in walg_mysql_combine %}
+{{ var.option | upper }}={{ var.value }}
+{% endfor %}
+{% endif %}
+{% if walg_postgresql_combine | length > 0 %}
+# PostgreSQL setup
+{%   for var in walg_postgresql_combine %}
+{{ var.option | upper }}={{ var.value }}
+{% endfor %}
+{% endif %}
 
-# Wal-G Setup
-WALG_DELTA_MAX_STEPS={{ walg_backup_delta_steps }}
-WALG_DOWNLOAD_CONCURRENCY={{ walg_backup_download }}
-WALG_UPLOAD_CONCURRENCY={{ walg_backup_upload }}
-WALG_UPLOAD_DISK_CONCURRENCY={{ walg_backup_upload_disk }}
+{% if walg_common_combine | length > 0 %}
+# Wal-G setup
+{%   for var in walg_common_combine %}
+{{ var.option | upper }}={{ var.value }}
+{% endfor %}
+{% endif %}
