@@ -4,55 +4,55 @@
 # AWS S3 setup
 {%   for var in walg_aws_combine %}
 {{ var.option | upper }}={{ var.value }}
-{% endfor %}
+{%   endfor %}
 {% endif %}
 {% if walg_azure_combine | length > 0 %}
 # Azure Storage setup
 {%   for var in walg_azure_combine %}
 {{ var.option | upper }}={{ var.value }}
-{% endfor %}
+{%   endfor %}
 {% endif %}
 {% if walg_gcs_combine | length > 0 %}
 # Google Cloud Storage setup
 {%   for var in walg_gcs_combine %}
 {{ var.option | upper }}={{ var.value }}
-{% endfor %}
+{%   endfor %}
 {% endif %}
 {% if walg_swift_combine | length > 0 %}
 # Swift object storage setup
 {%   for var in walg_swift_combine %}
 {{ var.option | upper }}={{ var.value }}
-{% endfor %}
+{%   endfor %}
 {% endif %}
 {% if walg_filesystem_combine | length > 0 %}
 # Backups on filesystem setup
 {%   for var in walg_filesystem_combine %}
 {{ var.option | upper }}={{ var.value }}
-{% endfor %}
+{%   endfor %}
 {% endif %}
 
 {% if walg_mongodb_combine | length > 0 %}
 # MongoDB setup
 {%   for var in walg_mongodb_combine %}
 {{ var.option | upper }}={{ var.value }}
-{% endfor %}
+{%   endfor %}
 {% endif %}
 {% if walg_mysql_combine | length > 0 %}
 # MySQL setup
 {%   for var in walg_mysql_combine %}
 {{ var.option | upper }}={{ var.value }}
-{% endfor %}
+{%   endfor %}
 {% endif %}
 {% if walg_postgresql_combine | length > 0 %}
 # PostgreSQL setup
 {%   for var in walg_postgresql_combine %}
 {{ var.option | upper }}={{ var.value }}
-{% endfor %}
+{%   endfor %}
 {% endif %}
 
 {% if walg_common_combine | length > 0 %}
 # Wal-G setup
 {%   for var in walg_common_combine %}
 {{ var.option | upper }}={{ var.value }}
-{% endfor %}
+{%   endfor %}
 {% endif %}
