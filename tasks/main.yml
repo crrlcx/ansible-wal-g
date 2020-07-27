@@ -101,24 +101,24 @@
   tags:
     - always
 
-- name: wal-g | create cron job for rotate backups
+- name: wal-g | create cron job for create backups
   cron:
-    name: 'Rotate wal-g backups'
+    name: Create wal-g backups
+    hour: '1'
     minute: '0'
-    hour: '0'
     user: "{{ walg_user }}"
-    job: "{{ walg_script_path }}/walg-rotate.sh"
+    job: "{{ walg_script_path }}/walg-backup.sh"
     state: "{{ walg_cron_enabled | ternary('present', 'absent') }}"
   tags:
     - always
 
-- name: wal-g | create cron job for create backups
+- name: wal-g | create cron job for rotate backups
   cron:
-    name: 'Create wal-g backups'
+    name: Rotate wal-g backups
+    hour: '0'
     minute: '0'
-    hour: '1'
     user: "{{ walg_user }}"
-    job: "{{ walg_script_path }}/walg-backup.sh"
+    job: "{{ walg_script_path }}/walg-rotate.sh"
     state: "{{ walg_cron_enabled | ternary('present', 'absent') }}"
   tags:
     - always
