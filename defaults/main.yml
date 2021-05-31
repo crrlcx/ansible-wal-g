@@ -2,7 +2,7 @@
 # defaults file for ansible-wal-g
 
 walg_version: 1.0
-walg_url: "https://github.com/wal-g/wal-g/releases/download/v{walg_version}/wal-g-pg-ubuntu-20.04-amd64.tar.gz"
+walg_url: "https://github.com/wal-g/wal-g/releases/download/v{{walg_version}}/wal-g-pg-ubuntu-20.04-amd64.tar.gz"
 walg_binary: /usr/local/bin/wal-g
 pg_version: 11
 
