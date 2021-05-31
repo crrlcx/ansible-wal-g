@@ -17,10 +17,10 @@ multiple processors, and non-exclusive base backups for Postgres.\
 
 ```yaml
 # wal-g version to fetch
-walg_version: 0.2.15
+walg_version: 1.0
 
 # wal-g releases repository url
-walg_url: "https://github.com/wal-g/wal-g/releases/download/v{{ walg_version }}/wal-g.linux-amd64.tar.gz"
+walg_url: "https://github.com/wal-g/wal-g/releases/download/v{{ walg_version }}/wal-g-pg-ubuntu-20.04-amd64.tar.gz"
 
 # wal-g binary place
 walg_binary: /usr/local/bin/wal-g
