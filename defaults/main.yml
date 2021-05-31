@@ -1,15 +1,16 @@
 ---
 # defaults file for ansible-wal-g
 
-walg_version: 0.2.15
-walg_url: "https://github.com/wal-g/wal-g/releases/download/v{{ walg_version }}/wal-g.linux-amd64.tar.gz"
+walg_version: 1.0
+walg_url: "https://github.com/wal-g/wal-g/releases/download/v{walg_version}/wal-g-pg-ubuntu-20.04-amd64.tar.gz"
 walg_binary: /usr/local/bin/wal-g
+pg_version: 11
 
 walg_user: postgres
 
 walg_env: /etc/default/wal-g
 walg_script_path: /usr/local/scripts
-walg_data_path: /var/lib/postgresql/12/main
+walg_data_path: "/var/lib/postgresql/{{pg_version}}/main"
 
 walg_s3_id: 'id'
 walg_s3_secret: 'secret'
