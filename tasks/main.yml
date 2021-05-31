@@ -30,7 +30,6 @@
       - 'README.md'
       - 'LICENSE'
     remote_src: true
-    force: true
     owner: root
     group: root
     mode: 0755
