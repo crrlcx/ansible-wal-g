@@ -22,14 +22,10 @@
   tags:
     - always
 
-- name: wal-g | download with unarchive when upgrade or downgrade
-  unarchive:
-    src: "{{ walg_url }}"
-    dest: "{{ walg_binary | dirname }}"
-    exclude:
-      - 'README.md'
-      - 'LICENSE'
-    remote_src: true
+- name: wal-g | download when upgrade or downgrade
+  get_url:
+    url: "{{ walg_url }}"
+    dest: "{{ walg_binary }}/wal-g"
     owner: root
     group: root
     mode: 0755
