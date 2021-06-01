@@ -3,20 +3,20 @@
 
 # Storages
 ## AWS S3 storage setup
-walg_aws_config:
+walg_aws_config: []
   # aws_profile: 'default'
   # aws_session_token: ''
   # walg_cse_kms_id: ''
   # walg_cse_kms_region: ''
   # walg_s3_sse: ''
   # walg_s3_sse_kms_id: ''
-  aws_access_key_id: "{{ walg_s3_id }}"
-  aws_secret_access_key: "{{  walg_s3_secret }}"
-  aws_region: "{{ walg_s3_region | d(omit) }}"
-  aws_endpoint: "{{ walg_s3_endpoint | d(omit) }}"
-  aws_s3_force_path_style: "{{ walg_s3_use_path_style | d(false) }}"
-  walg_s3_prefix: "s3://{{ walg_s3_bucket | d('backup') }}/{{ walg_s3_prefix | d(omit) }}"
-  walg_s3_storage_class: "{{ walg_s3_storage_class | d(omit) }}"
+  # aws_access_key_id: "{{ walg_s3_id }}"
+  # aws_secret_access_key: "{{  walg_s3_secret }}"
+  # aws_region: "{{ walg_s3_region | d(omit) }}"
+  # aws_endpoint: "{{ walg_s3_endpoint | d(omit) }}"
+  # aws_s3_force_path_style: "{{ walg_s3_use_path_style | d(false) }}"
+  # walg_s3_prefix: "s3://{{ walg_s3_bucket | d('backup') }}/{{ walg_s3_prefix | d(omit) }}"
+  # walg_s3_storage_class: "{{ walg_s3_storage_class | d(omit) }}"
 
 ## Azure storage setup
 walg_azure_config: []
@@ -78,10 +78,10 @@ walg_common_config:
   # walg_prevent_wal_overwrite:
   # walg_sentinel_user_data:
   # walg_tar_size_threshold: 1000000000
-  total_bg_uploaded_limit: "{{ walg_backup_upload_bg | d(32) }}"
-  walg_compression_method: "{{ walg_backup_compression | d('lz4') }}"
-  walg_delta_max_steps: "{{ walg_backup_delta_steps | d(7) }}"
-  walg_delta_origin: "{{ walg_backup_delta_origin | d('LATEST') }}"
-  walg_download_concurrency: "{{ walg_backup_download | d(10) }}"
-  walg_upload_concurrency: "{{ walg_backup_upload | d(10) }}"
-  walg_upload_disk_concurrency: "{{ walg_backup_upload_disk | d(2) }}"
+  # total_bg_uploaded_limit: "{{ walg_backup_upload_bg | d(32) }}"
+  # walg_compression_method: "{{ walg_backup_compression | d('lz4') }}"
+  # walg_delta_max_steps: "{{ walg_backup_delta_steps | d(7) }}"
+  # walg_delta_origin: "{{ walg_backup_delta_origin | d('LATEST') }}"
+  # walg_download_concurrency: "{{ walg_backup_download | d(10) }}"
+  # walg_upload_concurrency: "{{ walg_backup_upload | d(10) }}"
+  # walg_upload_disk_concurrency: "{{ walg_backup_upload_disk | d(2) }}"
