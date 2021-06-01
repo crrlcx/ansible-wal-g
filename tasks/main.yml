@@ -25,7 +25,7 @@
 - name: wal-g | download when upgrade or downgrade
   get_url:
     url: "{{ walg_url }}"
-    dest: "{{ walg_binary }}/wal-g"
+    dest: "{{ walg_binary }}"
     owner: root
     group: root
     mode: 0755
