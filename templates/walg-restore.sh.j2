@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 {{ ansible_managed | comment }}
 
+check_binlog_replay="${1}"
+
 # Created by carrol@protonmail.com
 
 set -o noclobber  # Avoid overlay files (echo "hi" > foo)
@@ -12,9 +14,13 @@ set -o allexport
 source {{ walg_env }}
 set +o allexport
 
+{% if walg_type == 'pg' -%}
 {{ walg_binary }} backup-fetch {{ walg_data_path }} LATEST
-{% if walg_type == 'mysql' -%}
-if [ "${1}" == 'binlog-replay' ]; then
+{% elif walg_type == 'mysql' -%}
+if [ "${check_binlog_replay}" != 'binlog-replay' ]; then
+  {{ walg_binary }} backup-fetch LATEST
+fi
+if [ "${check_binlog_replay}" == 'binlog-replay' ]; then
   {{ walg_binary }} $@
 fi
 {% endif -%}
