@@ -14,5 +14,7 @@ set +o allexport
 
 {{ walg_binary }} backup-fetch {{ walg_data_path }} LATEST
 {% if walg_type == 'mysql' -%}
-{{ walg_binary }} binlog-replay $@
+if [ "${1}" == 'binlog-replay' ]; then
+  {{ walg_binary }} binlog-replay $@
+fi
 {% endif -%}
