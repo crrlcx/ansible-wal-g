@@ -1,16 +1,16 @@
 ---
 # defaults file for ansible-wal-g
 
-walg_version: 1.0
-walg_url: "https://github.com/wal-g/wal-g/releases/download/v{{ walg_version }}/wal-g-pg-ubuntu-18.04-amd64"
-walg_binary: /usr/local/bin/wal-g
-pg_version: 11
-
+walg_version: 1.1
+walg_type: pg
 walg_user: postgres
+walg_url: "https://github.com/wal-g/wal-g/releases/download/v{{ walg_version }}/wal-g-{{ walg_type }}-{{ ansible_distribution | lower }}-{{ ansible_distribution_version }}-amd64"
+walg_binary: /usr/local/bin/wal-g
+walg_binary_checksum: ""
 
 walg_env: /etc/default/wal-g
 walg_script_path: /usr/local/scripts
-walg_data_path: "/var/lib/pgsql/{{ pg_version }}/data"
+walg_data_path: ""
 
 walg_s3_id: 'id'
 walg_s3_secret: 'secret'
@@ -22,8 +22,6 @@ walg_s3_prefix: ''
 walg_s3_storage_class: STANDARD_IA
 walg_s3_use_path_style: false
 
-walg_pg_socket: /var/run/postgresql
-
 walg_backup_upload_disk: 2
 walg_backup_upload: 10
 walg_backup_download: 10
@@ -32,6 +30,7 @@ walg_backup_delta_steps: 7
 walg_backup_retain: 2
 
 walg_cron_enabled: false
+walg_cron_binlog_enabled: false
 
 # Override WAL-G settings
 ## Storages
