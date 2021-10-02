@@ -99,9 +99,9 @@
     job: "{{ walg_script_path }}/walg-rotate.sh"
     state: "{{ walg_cron_enabled | ternary('present', 'absent') }}"
 
-- name: wal-g | create cron job for rotate backups
+- name: wal-g | create cron job for push binlog
   cron:
-    name: Rotate wal-g backups
+    name: Push wal-g binlog
     user: root
     job: "/usr/bin/flock -w 10 /var/run/.walg-push.sh.lock {{ walg_script_path }}/walg-push.sh"
     state: "{{ walg_cron_binlog_enabled | ternary('present', 'absent') }}"
