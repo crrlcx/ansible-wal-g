@@ -111,3 +111,7 @@ Rotate WAL-archives and backups with: `/usr/local/scripts/walg-rotate.sh`
 ## License
 
 MIT
+
+## Support author
+
+[![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%202.svg)](https://www.digitalocean.com/?refcode=53db0fdc3ada&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)You can support me with DO ref program
