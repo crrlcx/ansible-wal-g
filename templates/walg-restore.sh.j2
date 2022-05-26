@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 {{ ansible_managed | comment }}
 
-check_binlog_replay="${1}"
+{% if (walg_type == 'mysql' or walg_type == 'mongo') -%}
+check_replay="${1}"
+{% endif -%}
 
 # Created by carrol@protonmail.com
 
@@ -17,10 +19,15 @@ set +o allexport
 {% if walg_type == 'pg' -%}
 {{ walg_binary }} backup-fetch {{ walg_data_path }} LATEST
 {% elif walg_type == 'mysql' -%}
-if [ "${check_binlog_replay}" != 'binlog-replay' ]; then
+if [ "${check_replay}" != 'binlog-replay' ]; then
   {{ walg_binary }} backup-fetch LATEST
+else
+  {{ walg_binary }} $@
 fi
-if [ "${check_binlog_replay}" == 'binlog-replay' ]; then
+{% elif walg_type == 'mongo' -%}
+if [ "${check_replay}" != 'oplog-replay' ]; then
+  {{ walg_binary }} backup-fetch LATEST
+else
   {{ walg_binary }} $@
 fi
 {% endif -%}

@@ -16,4 +16,6 @@ set +o allexport
 {{ walg_binary }} wal-fetch $1 $2
 {% elif walg_type == 'mysql' -%}
 {{ walg_binary }} binlog-fetch $@
+{% elif walg_type == 'mongo' -%}
+{{ walg_binary }} oplog-fetch $@
 {% endif -%}

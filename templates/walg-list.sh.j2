@@ -12,4 +12,8 @@ set -o allexport
 source {{ walg_env }}
 set +o allexport
 
+{% if walg_type == 'mongo' -%}
+{{ walg_binary }} backup-list -v
+{% else -%}
 {{ walg_binary }} backup-list --pretty --detail --json
+{% endif -%}

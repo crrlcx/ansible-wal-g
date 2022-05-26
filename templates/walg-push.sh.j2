@@ -16,5 +16,7 @@ set +o allexport
 {{ walg_binary }} wal-push $1
 {% elif walg_type == 'mysql' -%}
 {{ walg_binary }} binlog-push $@
+{% elif walg_type == 'mongo' -%}
+{{ walg_binary }} oplog-push $@
 {% endif -%}
 
