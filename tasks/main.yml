@@ -5,8 +5,6 @@
     path: "{{ walg_binary }}"
   register: walg_current_binary
   changed_when: false
-  tags:
-    - always
 
 - name: wal-g | get current binary version
   shell: |
@@ -19,8 +17,6 @@
   check_mode: false
   when:
     - walg_current_binary.stat.exists
-  tags:
-    - always
 
 - name: wal-g | download when upgrade or downgrade
   ansible.builtin.get_url:
@@ -46,8 +42,6 @@
     - walg_binary_extracted_name: "{{ walg_url | basename | replace('.tar.gz', '') }}"
   when:
     - not walg_current_binary.stat.exists or walg_current_version.stdout is version(walg_version, '!=')
-  tags:
-    - always
 
 - name: wal-g | combine env config
   block:
@@ -69,16 +63,12 @@
         walg_postgresql_combine: "{{ walg_postgresql_config | combine(walg_postgresql_override) | dict2items(key_name='option', value_name='value') }}"
     - set_fact:
         walg_common_combine: "{{ walg_common_config | combine(walg_common_override) | dict2items(key_name='option', value_name='value') }}"
-  tags:
-    - always
 
 - name: wal-g | check env directory
   file:
     path: "{{ walg_env | dirname }}"
     state: directory
     mode: 0755
-  tags:
-    - always
 
 - name: wal-g | create env file
   template:
@@ -87,16 +77,12 @@
     owner: root
     group: adm
     mode: 0644
-  tags:
-    - always
 
 - name: wal-g | check scripts directory
   file:
     path: "{{ walg_script_path }}"
     state: directory
     mode: 0755
-  tags:
-    - always
 
 - name: wal-g | create scripts files
   template:
@@ -108,8 +94,6 @@
     mode: 0755
   with_fileglob:
     - ../templates/*.sh.j2
-  tags:
-    - always
 
 - name: wal-g | create cron job for create backups
   cron:
@@ -119,8 +103,6 @@
     user: "{{ walg_user }}"
     job: "{{ walg_script_path }}/walg-backup.sh"
     state: "{{ walg_cron_enabled | ternary('present', 'absent') }}"
-  tags:
-    - always
 
 - name: wal-g | create cron job for rotate backups
   cron:
@@ -130,5 +112,3 @@
     user: "{{ walg_user }}"
     job: "{{ walg_script_path }}/walg-rotate.sh"
     state: "{{ walg_cron_enabled | ternary('present', 'absent') }}"
-  tags:
-    - always
