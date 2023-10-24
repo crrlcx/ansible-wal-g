@@ -3,6 +3,7 @@
 
 walg_version: 0.2.15
 walg_url: "https://github.com/wal-g/wal-g/releases/download/v{{ walg_version }}/wal-g.linux-amd64.tar.gz"
+walg_sha256_checksum: ea33c2341d7bfb203c6948590c29834c013ab06a28c7a2b236a73d906f785c84
 walg_binary: /usr/local/bin/wal-g
 
 walg_user: postgres

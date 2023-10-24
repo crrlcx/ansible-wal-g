@@ -22,18 +22,28 @@
   tags:
     - always
 
-- name: wal-g | download with unarchive when upgrade or downgrade
+- name: wal-g | download when upgrade or downgrade
+  ansible.builtin.get_url:
+    url: "{{ walg_url }}"
+    dest: /tmp/{{ walg_url | basename }}
+    checksum: sha256:{{ walg_sha256_checksum }}
+  when:
+    - not walg_current_binary.stat.exists or walg_current_version.stdout is version(walg_version, '!=')
+
+- name: wal-g | unarchive when upgrade or downgrade
   unarchive:
-    src: "{{ walg_url }}"
+    src: /tmp/{{ walg_url | basename }}
     dest: "{{ walg_binary | dirname }}"
-    exclude:
-      - 'README.md'
-      - 'LICENSE'
+    include: "{{ walg_binary_extracted_name }}"
+    extra_opts:
+    - --transform
+    - "{{ 's/^' + walg_binary_extracted_name + '$/wal-g/' }}"
     remote_src: true
-    force: true
     owner: root
     group: root
-    mode: 0755
+    mode: "755"
+  vars:
+    - walg_binary_extracted_name: "{{ walg_url | basename | replace('.tar.gz', '') }}"
   when:
     - not walg_current_binary.stat.exists or walg_current_version.stdout is version(walg_version, '!=')
   tags:
