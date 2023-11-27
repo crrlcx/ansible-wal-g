@@ -68,7 +68,7 @@
   file:
     path: "{{ walg_env | dirname }}"
     state: directory
-    mode: 0755
+    mode: "755"
 
 - name: wal-g | create env file
   template:
@@ -76,13 +76,13 @@
     dest: "{{ walg_env }}"
     owner: root
     group: adm
-    mode: 0644
+    mode: "644"
 
 - name: wal-g | check scripts directory
   file:
     path: "{{ walg_script_path }}"
     state: directory
-    mode: 0755
+    mode: "755"
 
 - name: wal-g | create scripts files
   template:
@@ -91,7 +91,7 @@
     backup: no
     owner: root
     group: adm
-    mode: 0755
+    mode: "755"
   with_fileglob:
     - ../templates/*.sh.j2
 
