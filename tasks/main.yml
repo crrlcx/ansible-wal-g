@@ -5,8 +5,6 @@
     path: "{{ walg_binary }}"
   register: walg_current_binary
   changed_when: false
-  tags:
-    - always
 
 - name: wal-g | get current binary version
   shell: |
@@ -19,25 +17,31 @@
   check_mode: false
   when:
     - walg_current_binary.stat.exists
-  tags:
-    - always
 
-- name: wal-g | download with unarchive when upgrade or downgrade
-  unarchive:
-    src: "{{ walg_url }}"
-    dest: "{{ walg_binary | dirname }}"
-    exclude:
-      - 'README.md'
-      - 'LICENSE'
-    remote_src: true
-    force: true
-    owner: root
-    group: root
-    mode: 0755
+- name: wal-g | download when upgrade or downgrade
+  ansible.builtin.get_url:
+    url: "{{ walg_url }}"
+    dest: /tmp/{{ walg_url | basename }}
+    checksum: sha256:{{ walg_sha256_checksum }}
   when:
     - not walg_current_binary.stat.exists or walg_current_version.stdout is version(walg_version, '!=')
-  tags:
-    - always
+
+- name: wal-g | unarchive when upgrade or downgrade
+  unarchive:
+    src: /tmp/{{ walg_url | basename }}
+    dest: "{{ walg_binary | dirname }}"
+    include: "{{ walg_binary_extracted_name }}"
+    extra_opts:
+    - --transform
+    - "{{ 's/^' + walg_binary_extracted_name + '$/wal-g/' }}"
+    remote_src: true
+    owner: root
+    group: root
+    mode: "755"
+  vars:
+    - walg_binary_extracted_name: "{{ walg_url | basename | replace('.tar.gz', '') }}"
+  when:
+    - not walg_current_binary.stat.exists or walg_current_version.stdout is version(walg_version, '!=')
 
 - name: wal-g | combine env config
   block:
@@ -59,16 +63,12 @@
         walg_postgresql_combine: "{{ walg_postgresql_config | combine(walg_postgresql_override) | dict2items(key_name='option', value_name='value') }}"
     - set_fact:
         walg_common_combine: "{{ walg_common_config | combine(walg_common_override) | dict2items(key_name='option', value_name='value') }}"
-  tags:
-    - always
 
 - name: wal-g | check env directory
   file:
     path: "{{ walg_env | dirname }}"
     state: directory
-    mode: 0755
-  tags:
-    - always
+    mode: "755"
 
 - name: wal-g | create env file
   template:
@@ -76,17 +76,13 @@
     dest: "{{ walg_env }}"
     owner: root
     group: adm
-    mode: 0644
-  tags:
-    - always
+    mode: "644"
 
 - name: wal-g | check scripts directory
   file:
     path: "{{ walg_script_path }}"
     state: directory
-    mode: 0755
-  tags:
-    - always
+    mode: "755"
 
 - name: wal-g | create scripts files
   template:
@@ -95,11 +91,9 @@
     backup: no
     owner: root
     group: adm
-    mode: 0755
+    mode: "755"
   with_fileglob:
     - ../templates/*.sh.j2
-  tags:
-    - always
 
 - name: wal-g | create cron job for create backups
   cron:
@@ -109,8 +103,6 @@
     user: "{{ walg_user }}"
     job: "{{ walg_script_path }}/walg-backup.sh"
     state: "{{ walg_cron_enabled | ternary('present', 'absent') }}"
-  tags:
-    - always
 
 - name: wal-g | create cron job for rotate backups
   cron:
@@ -120,5 +112,3 @@
     user: "{{ walg_user }}"
     job: "{{ walg_script_path }}/walg-rotate.sh"
     state: "{{ walg_cron_enabled | ternary('present', 'absent') }}"
-  tags:
-    - always

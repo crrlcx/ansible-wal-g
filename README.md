@@ -22,6 +22,9 @@ walg_version: 0.2.15
 # wal-g releases repository url
 walg_url: "https://github.com/wal-g/wal-g/releases/download/v{{ walg_version }}/wal-g.linux-amd64.tar.gz"
 
+# wal-g download checksum (get it from the release page or directly from : "{{ walg_url }}.sha256")
+walg_sha256_checksum:
+
 # wal-g binary place
 walg_binary: /usr/local/bin/wal-g
 
