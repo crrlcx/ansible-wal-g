@@ -3,7 +3,7 @@
 
 walg_version: 0.2.15
 walg_url: "https://github.com/wal-g/wal-g/releases/download/v{{ walg_version }}/wal-g.linux-amd64.tar.gz"
-walg_binary: /usr/local/bin/wal-g
+walg_binary: "/usr/local/bin/wal-g-pg-{{ ansible_distribution | lower }}-{{ ansible_distribution_version | lower }}-amd64"
 
 walg_user: postgres
 
