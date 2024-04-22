@@ -26,7 +26,11 @@ else
 fi
 {% elif walg_type == 'mongo' -%}
 if [ "${check_replay}" != 'oplog-replay' ]; then
+{%   if walg_mongodb_binary | bool %}
+  {{ walg_binary }} binary-backup-fetch LATEST {{ walg_mongodb_binary_config_path }} {{ walg_mongodb_binary_version }}
+{% else %}
   {{ walg_binary }} backup-fetch LATEST
+{%   endif -%}
 else
   {{ walg_binary }} $@
 fi

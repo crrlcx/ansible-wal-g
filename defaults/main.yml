@@ -1,7 +1,7 @@
 ---
 # defaults file for ansible-wal-g
 
-walg_version: 1.1
+walg_version: 3.0
 walg_type: pg
 walg_user: postgres
 walg_url: "https://github.com/wal-g/wal-g/releases/download/v{{ walg_version }}/wal-g-{{ walg_type }}-{{ ansible_distribution | lower }}-{{ ansible_distribution_version }}-amd64"
@@ -41,6 +41,9 @@ walg_swift_override: []
 walg_filesystem_override: []
 
 ## Databases
+walg_mongodb_binary: false
+walg_mongodb_binary_config_path: '/etc/mongod.conf'
+walg_mongodb_binary_version: '6.0'
 walg_mongodb_override: []
 walg_mysql_override: []
 walg_postgresql_override: []
