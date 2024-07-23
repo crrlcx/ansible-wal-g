@@ -46,6 +46,7 @@ walg_mongodb_binary_config_path: '/etc/mongod.conf'
 walg_mongodb_binary_version: '6.0'
 walg_mongodb_override: []
 walg_mysql_override: []
+walg_mysql_incremental: false
 walg_postgresql_override: []
 
 ## Commons
