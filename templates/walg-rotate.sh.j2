@@ -12,4 +12,8 @@ set -o allexport
 source {{ walg_env }}
 set +o allexport
 
-{{ walg_binary }} delete retain FIND_FULL {{walg_backup_retain}} --confirm
+{% if walg_type == 'mongo' -%}
+{{ walg_binary }} delete --purge-garbage --retain-count {{ walg_backup_retain }} --purge-oplog --retain-after `date -Iseconds -d '{{ (walg_backup_retain|int) * 24 }} hours ago'` --confirm
+{% else -%}
+{{ walg_binary }} delete retain FULL {{ walg_backup_retain }} --confirm
+{% endif -%}

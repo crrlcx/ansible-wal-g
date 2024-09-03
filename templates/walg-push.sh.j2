@@ -12,4 +12,11 @@ set -o allexport
 source {{ walg_env }}
 set +o allexport
 
+{% if walg_type == 'pg' -%}
 {{ walg_binary }} wal-push $1
+{% elif walg_type == 'mysql' -%}
+{{ walg_binary }} binlog-push $@
+{% elif walg_type == 'mongo' -%}
+{{ walg_binary }} oplog-push $@
+{% endif -%}
+

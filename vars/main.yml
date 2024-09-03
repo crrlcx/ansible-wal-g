@@ -19,7 +19,7 @@ walg_aws_config:
   walg_s3_storage_class: "{{ walg_s3_storage_class | d(omit) }}"
 
 ## Azure storage setup
-walg_azure_config: []
+walg_azure_config: {}
   # azure_storage_access_key: ''
   # azure_storage_account: ''
   # walg_azure_buffer_size: 33554432
@@ -27,28 +27,28 @@ walg_azure_config: []
   # walg_az_prefix: 'azure://'
 
 ## Google Cloud storage setup
-walg_gcs_config: []
+walg_gcs_config: {}
   # gcs_context_timeout: 3600
   # gcs_normalize_prefix: true
   # google_application_credentials: 'google_service_account.json'
   # walg_gs_prefix: 'gs://'
 
 ## Swift object storage setup
-walg_swift_config: []
+walg_swift_config: {}
   # walg_swift_prefix: 'swift://'
 
 ## Backups on files system setup
-walg_filesystem_config: []
+walg_filesystem_config: {}
   # walg_file_prefix: '/backup/wal-g'
 
 # Databases
 ## MongoDB setup
-walg_mongodb_config: []
+walg_mongodb_config: {}
   # walg_mongo_oplog_dst: ''
   # walg_mongo_oplog_end_ts: ''
 
 ## MySQL setup
-walg_mysql_config: []
+walg_mysql_config: {}
   # walg_mysql_ssl_ca: ''
   # walg_mysql_datasource_name: ''
   # walg_mysql_binlog_dst: ''
@@ -58,12 +58,11 @@ walg_mysql_config: []
   # walg_stream_restore_command: ''
 
 ## PostgreSQL setup
-walg_postgresql_config:
+walg_postgresql_config: {}
   # pguser: "{{ walg_user | d(omit) }}"
   # pgpassword: "{{ walg_pg_password | d(omit) }}"
   # pgpassfile: "{{ walg_pg_passfile | d('~/.pgpass') }}"
   # pgport: "{{ walg_pg_port | d(5432) }}"
-  pghost: "{{ walg_pg_socket | d('/var/run/postgresql') }}"
 
 # Commons
 ## Wal-G setup
@@ -85,3 +84,4 @@ walg_common_config:
   walg_download_concurrency: "{{ walg_backup_download | d(10) }}"
   walg_upload_concurrency: "{{ walg_backup_upload | d(10) }}"
   walg_upload_disk_concurrency: "{{ walg_backup_upload_disk | d(2) }}"
+

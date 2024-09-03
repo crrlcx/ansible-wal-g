@@ -12,4 +12,10 @@ set -o allexport
 source {{ walg_env }}
 set +o allexport
 
+{% if walg_mongodb_binary | bool -%}
+{{ walg_binary }} binary-backup-push {{ walg_data_path }}
+{% elif walg_mysql_incremental | bool -%}
+{{ walg_binary }} xtrabackup-push $@
+{% else -%}
 {{ walg_binary }} backup-push {{ walg_data_path }}
+{% endif -%}

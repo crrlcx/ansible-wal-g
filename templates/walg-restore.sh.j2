@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 {{ ansible_managed | comment }}
 
+{% if (walg_type == 'mysql' or walg_type == 'mongo') -%}
+check_replay="${1}"
+{% endif -%}
+
 # Created by carrol@protonmail.com
 
 set -o noclobber  # Avoid overlay files (echo "hi" > foo)
@@ -12,4 +16,22 @@ set -o allexport
 source {{ walg_env }}
 set +o allexport
 
+{% if walg_type == 'pg' -%}
 {{ walg_binary }} backup-fetch {{ walg_data_path }} LATEST
+{% elif walg_type == 'mysql' -%}
+if [ "${check_replay}" != 'binlog-replay' ]; then
+  {{ walg_binary }} backup-fetch LATEST
+else
+  {{ walg_binary }} $@
+fi
+{% elif walg_type == 'mongo' -%}
+if [ "${check_replay}" != 'oplog-replay' ]; then
+{%   if walg_mongodb_binary | bool %}
+  {{ walg_binary }} binary-backup-fetch LATEST {{ walg_mongodb_binary_config_path }} {{ walg_mongodb_binary_version }}
+{% else %}
+  {{ walg_binary }} backup-fetch LATEST
+{%   endif -%}
+else
+  {{ walg_binary }} $@
+fi
+{% endif -%}
