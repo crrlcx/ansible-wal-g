@@ -12,4 +12,8 @@ set -o allexport
 source {{ walg_env }}
 set +o allexport
 
+start=`date +%s%3N`
 {{ walg_binary }} wal-push $1
+end=`date +%s%3N`
+current_dt="`date`"
+echo "[${current_dt}] walg-push: WAL ${1} uploaded in $(($end - $start)) ms"
