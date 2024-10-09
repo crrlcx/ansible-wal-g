@@ -28,10 +28,17 @@
     path: "{{ walg_binary | dirname }}"
     state: directory
 
+- name: wal-g | ensure tmp directory exists
+  file:
+    path: "/tmp/wal-g-build"
+    state: directory
+  when:
+    - not walg_current_binary.stat.exists or walg_current_version.stdout is version(walg_version, '!=')
+
 - name: wal-g | download with unarchive when upgrade or downgrade
   unarchive:
     src: "{{ walg_url }}"
-    dest: "{{ walg_binary | dirname }}"
+    dest: "/tmp/wal-g-build"
     exclude:
       - 'README.md'
       - 'LICENSE'
@@ -45,10 +52,18 @@
   tags:
     - always
 
+- name: copy tarball to server
+  copy:
+    src: "{{ walg_tarball }}"
+    dest: /tmp/wal-g-build
+  when:
+    - not walg_current_binary.stat.exists or walg_current_version.stdout is version(walg_version, '!=')
+    - walg_tarball | default(false)
+
 - name: wal-g | unarchive tarball when upgrade or downgrade
   unarchive:
-    src: "{{ walg_tarball }}"
-    dest: "{{ walg_binary | dirname }}"
+    src: "/tmp/wal-g-build/{{ walg_tarball | basename }}"
+    dest: "/tmp/wal-g-build"
     exclude:
       - 'README.md'
       - 'LICENSE'
@@ -62,8 +77,15 @@
   tags:
     - always
 
-- name: wal-g | move walg unarchived binary file to walg_binary location
-  command: "mv {{ walg_archive_binary }} {{ walg_binary }}"
+- name: wal-g | move wal-g unarchived binary file to walg_binary location
+  command: "mv /tmp/wal-g-build/{{ walg_archive_binary }} {{ walg_binary }}"
+  when:
+    - not walg_current_binary.stat.exists or walg_current_version.stdout is version(walg_version, '!=')
+
+- name: wal-g | remove tmp directory
+  file:
+    path: "/tmp/wal-g-build"
+    state: absent
   when:
     - not walg_current_binary.stat.exists or walg_current_version.stdout is version(walg_version, '!=')
 
