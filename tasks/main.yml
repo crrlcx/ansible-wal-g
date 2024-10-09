@@ -22,6 +22,12 @@
   tags:
     - always
 
+
+- name: wal-g | ensure directory exists
+  file:
+    path: "{{ walg_binary | dirname }}"
+    state: directory
+
 - name: wal-g | download with unarchive when upgrade or downgrade
   unarchive:
     src: "{{ walg_url }}"
@@ -35,8 +41,31 @@
     mode: 0755
   when:
     - not walg_current_binary.stat.exists or walg_current_version.stdout is version(walg_version, '!=')
+    - not walg_tarball
   tags:
     - always
+
+- name: wal-g | unarchive tarball when upgrade or downgrade
+  unarchive:
+    src: "{{ walg_tarball }}"
+    dest: "{{ walg_binary | dirname }}"
+    exclude:
+      - 'README.md'
+      - 'LICENSE'
+    remote_src: true
+    owner: root
+    group: root
+    mode: 0755
+  when:
+    - not walg_current_binary.stat.exists or walg_current_version.stdout is version(walg_version, '!=')
+    - walg_tarball
+  tags:
+    - always
+
+- name: wal-g | move walg unarchived binary file to walg_binary location
+  command: "mv {{ walg_archive_binary }} {{ walg_binary }}"
+  when:
+    - not walg_current_binary.stat.exists or walg_current_version.stdout is version(walg_version, '!=')
 
 - name: wal-g | combine env config
   block:

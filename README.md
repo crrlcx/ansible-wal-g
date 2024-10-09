@@ -22,8 +22,14 @@ walg_version: 0.2.15
 # wal-g releases repository url
 walg_url: "https://github.com/wal-g/wal-g/releases/download/v{{ walg_version }}/wal-g.linux-amd64.tar.gz"
 
+# Name of binary file in tarball or downloaded from walg_url archive
+walg_archive_binary: "wal-g-pg-{{ ansible_distribution | lower }}-{{ ansible_distribution_version | lower }}-amd64"
+
 # wal-g binary place
 walg_binary: /usr/local/bin/wal-g
+
+# Ability to install wal-g from a local .tar.gz file. Should be path to file.
+walg_tarball: false
 
 # user for cronjob
 walg_user: postgres
