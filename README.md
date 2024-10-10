@@ -67,6 +67,10 @@ walg_backups_retain: 2
 
 # Create cron jobs
 walg_cron_enabled: true
+
+# If host is set, sends extra time metrics of commands to prometheus pushgateway
+walg_pushgateway_host: ""
+walg_pushgateway_port: 9091
 ```
 
 ### Override

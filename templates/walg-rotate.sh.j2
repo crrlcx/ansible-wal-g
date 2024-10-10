@@ -12,4 +12,15 @@ set -o allexport
 source {{ walg_env }}
 set +o allexport
 
+start=`date +%s%3N`
 {{ walg_binary }} delete retain FIND_FULL {{walg_backup_retain}} --confirm
+end=`date +%s%3N`
+current_dt='`date +"%Y/%m/%d %H:%M:%S.%6N"`'
+echo "INFO: ${current_dt} WAL ROTATE TIME: $(($end - $start)) ms"
+
+{% if walg_pushgateway_host %}
+pushgateway_url="http://{{ walg_pushgateway_host }}:{{ walg_pushgateway_port }}/metrics/job/wal-g/hostname/$(hostname)"
+cat <<EOF | curl --data-binary @- "${pushgateway_url}" || true
+walg_delete_time $(($end - $start))
+EOF
+{% endif %}

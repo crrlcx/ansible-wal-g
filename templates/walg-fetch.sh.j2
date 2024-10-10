@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 {{ ansible_managed | comment }}
 
-# Created by carrol@protonmail.com
-
 set -o noclobber  # Avoid overlay files (echo "hi" > foo)
 set -o errexit    # Used to exit upon error, avoiding cascading errors
 set -o nounset    # Exposes unset variables
@@ -12,4 +10,15 @@ set -o allexport
 source {{ walg_env }}
 set +o allexport
 
+start=`date +%s%3N`
 {{ walg_binary }} wal-fetch $1 $2
+end=`date +%s%3N`
+current_dt='`date +"%Y/%m/%d %H:%M:%S.%6N"`'
+echo "INFO: ${current_dt} WAL FETCH TIME: $(($end - $start)) ms"
+
+{% if walg_pushgateway_host %}
+pushgateway_url="http://{{ walg_pushgateway_host }}:{{ walg_pushgateway_port }}/metrics/job/wal-g/hostname/$(hostname)"
+cat <<EOF | curl --data-binary @- "${pushgateway_url}" || true
+walg_wal_fetch_time $(($end - $start))
+EOF
+{% endif %}

@@ -49,3 +49,7 @@ walg_postgresql_override: []
 
 ## Commons
 walg_common_override: []
+
+## Pushgateway Prometheus metrics
+walg_pushgateway_host: ""
+walg_pushgateway_port: 9091
