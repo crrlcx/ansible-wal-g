@@ -18,7 +18,7 @@ echo "INFO: ${current_dt} WAL FETCH TIME: $(($end - $start)) ms"
 
 {% if walg_pushgateway_host %}
 pushgateway_url="http://{{ walg_pushgateway_host }}:{{ walg_pushgateway_port }}/metrics/job/wal-g/hostname/$(hostname)"
-cat <<EOF | curl --data-binary @- "${pushgateway_url}" || true
+cat <<EOF | curl -s --data-binary @- "${pushgateway_url}" || true
 walg_wal_fetch_time $(($end - $start))
 EOF
 {% endif %}
